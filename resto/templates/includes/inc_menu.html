@@ -1,0 +1,31 @@
+{% load static %}
+<input type="checkbox" id="nav-toggle" hidden>
+<nav class="nav">
+    <label for="nav-toggle" class="nav-toggle" onclick></label>
+    <h2 class="logo">
+            <a href="{% url 'resto:home' %}">Heaven</a>
+        </h2>
+    {% if user.is_authenticated %}
+    <h2 class="logo">
+            <a href="{% url 'users:personal-account' user.pk %}">Личный кабинет</a>
+        </h2>
+    {% endif %}
+        <ul>
+            <li><a href="{% url 'resto:home' %}">Главная</a>
+            <li><a href="{% url 'resto:reservation' %}">Бронирование</a>
+            <li><a href="{% url 'resto:about' %}">О нас</a>
+            <h5 class="mt-5" style="color: #7a7a79">ПН-ВС: 10:00-02:00</h5>
+            <div class="social-icons mt-4">
+              <a href="#" target="_blank">
+                <img src="/static/images/vk.svg" alt="VK Icon">
+              </a>
+              <a href="#" target="_blank">
+                <img src="/static/images/telegram.svg" alt="Telegram Icon">
+              </a>
+              <a href="#" target="_blank">
+                <img src="/static/images/whatsapp.svg" alt="Whatsapp Icon">
+              </a>
+            </div>
+            <a href="#"><button type="button" class="btn btn-lg mt-4" style="background: #dadada">Напишите нам</button></a>
+        </ul>
+    </nav>
