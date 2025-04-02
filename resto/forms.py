@@ -1,6 +1,6 @@
 from django.forms import BooleanField, ModelForm
 
-from resto.models import Reservation
+from resto.models import Reservation, Feedback
 
 
 class StyleFormMixin:
@@ -23,3 +23,11 @@ class ReservationForm(StyleFormMixin, ModelForm):
 
         model = Reservation
         fields = "__all__"
+
+
+class FeedbackForm(ModelForm):
+    """ Форма для обратной связи. """
+
+    class Meta:
+        model = Feedback
+        fields = ["name", "phone", "message"]

@@ -1,14 +1,31 @@
+from django.contrib import messages
+from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView, TemplateView
 
-from resto.forms import ReservationForm
-from resto.models import Table, Reservation
+from resto.forms import ReservationForm, FeedbackForm
+from resto.models import Table, Reservation, Feedback
 
 
 class HomeTemplateView(TemplateView):
     """ Главная страница. """
 
     template_name = 'home.html'
+
+
+class FeedbackCreateView(CreateView):
+    """ Обратная связь. """
+
+    model = Feedback
+    form_class = FeedbackForm
+    template_name = 'feedback.html'
+    success_url = reverse_lazy('resto:home')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Ваше сообщение успешно отправлено!')
+        return response
 
 
 class AboutUsTemplateView(TemplateView):

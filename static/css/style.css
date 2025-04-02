@@ -185,3 +185,21 @@ body, html {
 .right-column {
     background-color: lightcoral;
 }
+
+/* Класс для черного прозрачного фона */
+.black-transparent-background {
+    background-color: rgba(0, 0, 0, 0.5); /* Черный цвет с прозрачностью 50% */
+    padding: 20px; /* Немного отступов для удобства чтения */
+    color: white; /* Цвет текста - белый */
+    text-align: center; /* Центрирование текста */
+    border-radius: 5px; /* Округлые углы для красоты */
+}
+
+/* Класс для контейнера с текстом */
+.text-content {
+    position: relative; /* Позиционирование для центрирования */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60%; /* Ширина контейнера */
+    margin: auto; /* Автоцентрирование по горизонтали */
+5px`**:   }
