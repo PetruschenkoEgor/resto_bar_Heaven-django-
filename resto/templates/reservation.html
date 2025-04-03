@@ -1,10 +1,55 @@
 {% extends 'base.html' %}
-{% block title %}Бронирование{% endblock %}
 
 {% block content %}
-{% load static %}
+<h1>Выбор даты и времени</h1>
 
-<footer>
-        <p>© 2025 Heaven</p>
-    </footer>
+<form id="filter-form">
+    <label for="selected-date">Выберите дату:</label>
+    <input type="date" id="selected-date" name="selected-date">
+    <label for="selected-time">Выберите время:</label>
+    <input type="time" id="selected-time" name="selected-time">
+    <button type="submit">Показать доступные столики</button>
+</form>
+
+<div id="calendar"></div>
+<ul id="tables-list">
+    <!-- Список столиков будет заполняться динамически --><!-- Список столиков будет заполняться динамически -->
+    <h1>Выберите дату и время</h1>
+</ul>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Обработчик события отправки формы фильтрации
+        document.getElementById('filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var selectedDate = document.getElementById('selected-date').value;
+            var selectedTime = document.getElementById('selected-time').value;
+
+            // Отправка AJAX-запроса на сервер для фильтрации столиков
+            fetch('/free-tables/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ date: selectedDate, time: selectedTime })
+            }).then(response => response.json())
+              .then(data => {
+                  // Очистка текущего списка столиков
+                  var tablesList = document.getElementById('tables-list');
+                  tablesList.innerHTML = '';
+
+                  // Добавление новых элементов в список
+                  data.tables.forEach(table => {
+                      var li = document.createElement('li');
+                      var a = document.createElement('a');
+                      a.href = `/tables/${table.id}/reservation/`;
+                      a.textContent = `Столик ${table.id} (${table.capacity} мест)`;
+                      li.appendChild(a);
+                      tablesList.appendChild(li);
+                  });
+              });
+        });
+    });
+</script>
 {% endblock %}
