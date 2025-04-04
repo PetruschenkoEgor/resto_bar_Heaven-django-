@@ -64,8 +64,15 @@ class ReservationCreateView(CreateView):
 
     model = Reservation
     form_class = ReservationForm
-    template_name = 'reservation_form.html'
+    template_name = 'res.html'
     success_url = reverse_lazy('resto:home')
+
+    def get_context_data(self, **kwargs):
+        """ Передача столика в контекст. """
+
+        context = super().get_context_data(**kwargs)
+        context['table'] = Table.objects.get(pk=self.kwargs.get('pk'))
+        return context
 
     def get_initial(self):
         """ Заполняет форму, имеющимися данными. """

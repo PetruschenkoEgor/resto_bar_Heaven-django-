@@ -29,13 +29,13 @@ class Table(models.Model):
 
 class Reservation(models.Model):
     """ Модель бронирования. """
-    table = models.ForeignKey(Table, on_delete=models.CASCADE, verbose_name='Номер столика', help_text='Введите номер столика')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Гость', help_text='Введите гостя', blank=True, null=True)
-    start_datetime = models.DateTimeField(verbose_name='Время и дата начала бронирования', help_text='Укажите время и дату начала бронирования', blank=True, null=True)
-    end_datetime = models.DateTimeField(verbose_name='Время и дата окончания бронирования', help_text='Укажите время и дату окончания бронирования', blank=True, null=True)
-    customer_name = models.CharField(max_length=255, verbose_name='Имя гостя', help_text='Укажите имя гостя', blank=True, null=True)
-    quantity_customers = models.PositiveIntegerField(verbose_name='Количество гостей', help_text='Укажите количество гостей', blank=True, null=True)
-    phone_number = models.CharField(max_length=255, verbose_name='Номер телефона', help_text='Укажите номер телефона', blank=True, null=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, verbose_name='Номер столика')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Гость', blank=True, null=True)
+    start_datetime = models.DateTimeField(verbose_name='Время и дата начала бронирования', blank=True, null=True)
+    end_datetime = models.DateTimeField(verbose_name='Время и дата окончания бронирования', blank=True, null=True)
+    customer_name = models.CharField(max_length=255, verbose_name='Имя гостя', blank=True, null=True)
+    quantity_customers = models.PositiveIntegerField(verbose_name='Количество гостей', blank=True, null=True)
+    phone_number = models.CharField(max_length=255, verbose_name='Номер телефона', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания бронирования')
 
     class Meta:
