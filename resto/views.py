@@ -64,7 +64,7 @@ class ReservationCreateView(CreateView):
 
     model = Reservation
     form_class = ReservationForm
-    template_name = 'res.html'
+    template_name = 'reservation_form.html'
     success_url = reverse_lazy('resto:home')
 
     def get_context_data(self, **kwargs):

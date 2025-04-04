@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Записаться на консультацию{% endblock %}
 
 {% block content %}
-<h1>Форма бронирования</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Забронировать</button>
-</form>
+<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="overlay black-transparent-background text-content">
+        <form method="post" action="" class="mx-auto w-50">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="center">
+                    <h3>Привет!</h3>
+                    <p>Забронируй столик прямо сейчас!</p>
+                </legend>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Забронировать</button>
+            </fieldset>
+        </form>
+        </div>
+</div>
 {% endblock %}
