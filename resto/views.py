@@ -98,11 +98,12 @@ class FreeTablesView(View):
         # Фильтрация доступных столиков
         available_tables = []
         for table in Table.objects.all():
-            if table.is_available(selected_datetime, selected_datetime + timedelta(hours=1)):
+            if table.is_available(selected_datetime, selected_datetime):
                 available_tables.append({
                     'id': table.id,
                     'name': table.number_table,
-                    'capacity': table.capacity
+                    'capacity': table.capacity,
+                    'image': table.image.url if table.image else None
                 })
 
         return JsonResponse({'tables': available_tables}, safe=False)

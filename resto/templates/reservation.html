@@ -1,31 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Выбор свободного столика{% endblock %}
 
 {% block content %}
-<h1>Выбор даты и времени</h1>
+<div class="container">
+    <div class="left-column black-transparent-background">
+        <h1 style="font-weight: bold; color: white; font-size: 42px;">Выбор даты и времени</h1>
+    </div>
+</div>
 
-<form id="filter-form">
-    <label for="selected-date">Выберите дату:</label>
-    <input type="date" id="selected-date" name="selected-date">
-    <label for="selected-time">Выберите время:</label>
-    <input type="time" id="selected-time" name="selected-time">
-    <button type="submit">Показать доступные столики</button>
-</form>
+<div class="container">
+    <div class="left-column mt-5">
+        <form id="filter-form">
+            <label style="font-size: 25px;" for="selected-date">Выберите дату:</label>
+            <input style="font-size: 25px;" type="date" id="selected-date" name="selected-date">
+            <label style="font-size: 25px;" for="selected-time">Выберите время:</label>
+            <input style="font-size: 25px;" type="time" id="selected-time" name="selected-time">
+            <button style="font-size: 25px;" type="submit">Показать доступные столики</button>
+        </form>
+    </div>
+</div>
 
-<div id="calendar"></div>
-<ul id="tables-list">
-    <!-- Список столиков будет заполняться динамически --><!-- Список столиков будет заполняться динамически -->
-    <h1>Выберите дату и время</h1>
-</ul>
+<div class="container">
+    <div class="left-column mt-5">
+        <div id="calendar"></div>
+        <ul id="tables-list" class="tables-grid">
+            <!-- Список столиков будет заполняться динамически -->
+            <h1>Выберите дату и время</h1>
+        </ul>
+    </div>
+</div>
+
+<div id="image-modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-image">
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Обработчик события отправки формы фильтрации
         document.getElementById('filter-form').addEventListener('submit', function(e) {
             e.preventDefault();
             var selectedDate = document.getElementById('selected-date').value;
             var selectedTime = document.getElementById('selected-time').value;
 
-            // Отправка AJAX-запроса на сервер для фильтрации столиков
             fetch('/free-tables/', {
                 method: 'POST',
                 headers: {
@@ -35,21 +53,145 @@
                 body: JSON.stringify({ date: selectedDate, time: selectedTime })
             }).then(response => response.json())
               .then(data => {
-                  // Очистка текущего списка столиков
                   var tablesList = document.getElementById('tables-list');
                   tablesList.innerHTML = '';
 
-                  // Добавление новых элементов в список
                   data.tables.forEach(table => {
                       var li = document.createElement('li');
-                      var a = document.createElement('a');
-                      a.href = `/tables/${table.id}/reservation/`;
-                      a.textContent = `Столик ${table.id} (${table.capacity} мест)`;
-                      li.appendChild(a);
+                      li.className = 'table-item';
+
+                      var img = document.createElement('img');
+                      img.src = table.image || '{% static "images/default_table.png" %}';
+                      img.alt = `Фото столика ${table.id}`;
+                      img.className = 'table-img';
+                      img.addEventListener('click', function() {
+                          document.getElementById('modal-image').src = this.src;
+                          document.getElementById('image-modal').style.display = 'block';
+                      });
+
+                      var details = document.createElement('div');
+                      details.className = 'table-details';
+                      details.addEventListener('click', function() {
+                          window.location.href = `/tables/${table.id}/reservation/`;
+                      });
+
+                      var header = document.createElement('h3');
+                      header.textContent = `Столик №${table.id}`;
+
+                      var capacity = document.createElement('p');
+                      capacity.textContent = `Вмещает до ${table.capacity} человек`;
+
+                      var status = document.createElement('p');
+                      if (table) {
+                          status.textContent = 'Свободен';
+                          status.style.color = 'green';
+                      }
+
+                      details.appendChild(header);
+                      details.appendChild(capacity);
+                      details.appendChild(status);
+
+                      li.appendChild(img);
+                      li.appendChild(details);
+
                       tablesList.appendChild(li);
                   });
               });
         });
+
+        var modal = document.getElementById('image-modal');
+        var closeBtn = document.getElementsByClassName('close')[0];
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     });
 </script>
+
+<style>
+    .tables-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 900px) {
+    .tables-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .tables-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+    .table-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .table-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    .table-details {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        cursor: pointer;
+    }
+    .table-details h3 {
+        margin: 0;
+        font-size: 24px;
+    }
+    .table-details p {
+        margin: 5px 0;
+        font-size: 18px;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 60px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
 {% endblock %}

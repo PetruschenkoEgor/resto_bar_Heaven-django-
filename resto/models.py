@@ -7,6 +7,8 @@ class Table(models.Model):
     """ Модель столика. """
     number_table = models.PositiveIntegerField(verbose_name='Номер столика', help_text='Введите номер столика', unique=True)
     capacity = models.PositiveIntegerField(verbose_name='Вместимость столика', help_text='Введите вместимость столика')
+    image = models.ImageField(upload_to='table_images/', blank=True, null=True, verbose_name='Фото столика')
+    is_available = models.BooleanField(default=True, verbose_name='Свободен')
 
     class Meta:
         verbose_name = 'Столик'
