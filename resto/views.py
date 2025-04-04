@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView
 
 from resto.forms import FeedbackForm, ReservationForm
 from resto.models import Table, Reservation, Feedback
@@ -86,6 +86,21 @@ class ReservationCreateView(CreateView):
 
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class ReservationUpdateView(UpdateView):
+    """ Редактирование бронирования. """
+
+    model = Reservation
+    form_class = ReservationForm
+    template_name = 'reservation_form.html'
+    success_url = reverse_lazy('users:personal-account')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class FreeTablesView(View):

@@ -18,6 +18,8 @@ class Table(models.Model):
         return f'Номер столика: {self.number_table}'
 
     def is_available(self, start_date, end_date):
+        if not start_date or not end_date:
+            return False
         # Проверяем, есть ли бронирования, которые пересекаются с выбранным интервалом
         overlapping_reservations = Reservation.objects.filter(
             table=self,

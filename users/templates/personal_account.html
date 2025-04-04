@@ -1,10 +1,34 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
 {% load static %}
-
-<footer>
-        <p>© 2025 Heaven</p>
-    </footer>
+<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="overlay black-transparent-background text-content">
+        <fieldset>
+                <legend class="center">
+                    <h3>Ваши бронирования</h3>
+                </legend>
+                {% for reservation in reservations %}
+<div class="reservation-card">
+                <div class="card-header">
+                    <h4>Столик №{{ reservation.table.number_table }}</h4>
+                </div>
+                <div class="card-body">
+        <p><i class="fas fa-calendar"></i> {{ reservation.start_datetime }} - {{ reservation.end_datetime }}</p>
+        <p><i class="fas fa-user-group"></i> Количество гостей: {{ reservation.quantity_customers }}</p>
+        <p><i class="fas fa-phone"></i> {{ reservation.phone_number }}</p>
+        <p><i class="fas fa-clock"></i> Дата бронирования: {{ reservation.created_at }}</p>
+        <div class="action-buttons">
+                        <button class="btn btn-danger">Отменить</button>
+            <a href="{% url 'resto:reservation-edit' reservation.pk %}"><button class="btn btn-primary">Редактировать</button></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Войти</button>
+            </fieldset>
+        </div>
+</div>
 {% endblock %}

@@ -21,8 +21,10 @@ class ReservationForm(forms.ModelForm):
         model = Reservation
         fields = ['table', 'start_datetime', 'end_datetime', 'customer_name', 'quantity_customers', 'phone_number']
         widgets = {
-            'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'table': forms.Select(attrs={'required': True}),
+            # устанавливает календарик на выбор времени и даты и обязательное поле для заполнения
+            'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': True}),
+            'end_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': True}),
         }
 
     def clean(self):
@@ -32,6 +34,8 @@ class ReservationForm(forms.ModelForm):
         end_datetime = cleaned_data.get('end_datetime')
         if not table.is_available(start_datetime, end_datetime):
             raise forms.ValidationError(f"Столик {table} уже забронирован на это время.")
+        if not start_datetime or not end_datetime:
+            raise forms.ValidationError("Начальная или конечная дата не может быть пустой.")
         return cleaned_data
 
 

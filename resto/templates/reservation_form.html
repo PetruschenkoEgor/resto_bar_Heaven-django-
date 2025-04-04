@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Записаться на консультацию{% endblock %}
+{% block title %}
+{% if object %}
+Редактирование бронирования
+{% else %}
+Бронирование
+{% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
@@ -9,13 +15,35 @@
             {% csrf_token %}
             <fieldset>
                 <legend class="center">
+                    {% if object %}
+                    <h3>Редактирование бронирования</h3>
+                    {% else %}
                     <h3>Привет!</h3>
                     <p>Забронируй столик прямо сейчас!</p>
+                    {% endif %}
                 </legend>
                 {{ form.as_p }}
+                {% if object %}
+                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Редактировать</button>
+                {% else %}
                 <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Забронировать</button>
+                {% endif %}
             </fieldset>
         </form>
+            {% if form.errors %}
+        <div style="color: red;">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
         </div>
 </div>
 {% endblock %}

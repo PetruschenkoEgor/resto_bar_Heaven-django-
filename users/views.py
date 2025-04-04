@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
+from resto.models import Reservation
 from users.forms import UserRegisterForm
 from users.models import User
 
@@ -42,3 +43,10 @@ class PersonalAccountDetailView(DetailView):
     model = User
     template_name = "personal_account.html"
     context_object_name = "user"
+
+    def get_context_data(self, **kwargs):
+        """ Передача в контекст информации о бронированиях пользователя. """
+
+        context = super().get_context_data(**kwargs)
+        context['reservations'] = Reservation.objects.filter(user=self.kwargs.get('pk'))
+        return context
