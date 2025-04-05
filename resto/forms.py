@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 from django.forms import BooleanField, ModelForm
 
@@ -17,6 +19,8 @@ class StyleFormMixin:
 
 
 class ReservationForm(forms.ModelForm):
+    """ Форма для бронирования. """
+
     class Meta:
         model = Reservation
         fields = ['table', 'start_datetime', 'end_datetime', 'customer_name', 'quantity_customers', 'phone_number']
@@ -32,6 +36,15 @@ class ReservationForm(forms.ModelForm):
         table = cleaned_data.get('table')
         start_datetime = cleaned_data.get('start_datetime')
         end_datetime = cleaned_data.get('end_datetime')
+
+        # время открытия 10:00
+        opening_time = datetime.time(hour=10, minute=0)
+        if start_datetime.time() < opening_time:
+            raise forms.ValidationError("Время начала бронирования должно быть не ранее 10:00 утра.")
+        if end_datetime <= start_datetime:
+            raise forms.ValidationError("Время окончания бронирования должно быть больше времени начала бронирования.")
+        if start_datetime.date() != end_datetime.date():
+            raise forms.ValidationError("Даты начала и окончания бронирования должны быть одинаковыми.")
         if not table.is_available(start_datetime, end_datetime):
             raise forms.ValidationError(f"Столик {table} уже забронирован на это время.")
         if not start_datetime or not end_datetime:
