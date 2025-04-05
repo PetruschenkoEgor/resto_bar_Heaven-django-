@@ -5,13 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, TemplateView, ListView, UpdateView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView
 
 from resto.forms import FeedbackForm, ReservationForm
 from resto.models import Table, Reservation, Feedback
+from users.models import User
 
 
 class HomeTemplateView(TemplateView):
@@ -101,6 +103,28 @@ class ReservationUpdateView(UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+class ReservationDeleteView(DeleteView):
+    """ Удаление бронирования. """
+
+    model = Reservation
+    template_name = 'reservation_confirm_delete.html'
+    context_object_name = 'reservation'
+    success_url = reverse_lazy('users:personal-account')
+
+    def get_context_data(self, **kwargs):
+        """ Передача в контекст текущего пользователя. """
+
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['now'] = timezone.now()
+        return context
+
+    def get_success_url(self):
+        """ Перенаправление на личный кабинет. """
+
+        return reverse_lazy('users:personal-account', kwargs={'pk': self.object.user.pk})
 
 
 class FreeTablesView(View):

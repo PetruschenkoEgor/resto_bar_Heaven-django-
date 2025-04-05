@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import DetailView, CreateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
@@ -49,4 +50,5 @@ class PersonalAccountDetailView(DetailView):
 
         context = super().get_context_data(**kwargs)
         context['reservations'] = Reservation.objects.filter(user=self.kwargs.get('pk'))
+        context['now'] = timezone.now()
         return context

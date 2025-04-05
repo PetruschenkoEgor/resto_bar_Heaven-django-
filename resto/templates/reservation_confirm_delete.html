@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{% if reservation.start_datetime > now %}
+Отмена бронирования
+{% else %}
+Удаление бронирования
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="overlay black-transparent-background text-content">
+            <form method="post" action="" class="mx-auto w-50" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="center">
+            <h3>Вы действительно хотите отменить бронирование столика?</h3>
+                    </legend>
+            <div>
+                {% if reservation.start_datetime > now %}
+                <button type="submit" class="btn btn-danger" style="width: 100%">Отменить</button>
+                {% else %}
+                <button type="submit" class="btn btn-danger" style="width: 100%">Удалить</button>
+                {% endif %}
+                {% if reservation.start_datetime > now %}
+            <a href="{% url 'users:personal-account' user.pk %}"><button type="button" class="btn btn-primary">Я приду!</button></a>
+                {% else %}
+                <a href="{% url 'users:personal-account' user.pk %}"><button type="button" class="btn btn-primary">Назад</button></a>
+                {% endif %}
+            </div>
+                </fieldset>
+            </form>
+        </div>
+</div>
+{% endblock %}

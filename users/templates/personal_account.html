@@ -4,12 +4,34 @@
 
 {% block content %}
 {% load static %}
-<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-        <div class="overlay black-transparent-background text-content">
-        <fieldset>
-                <legend class="center">
+<style>
+    body {
+        background-color: rgba(0, 0, 0, 0.7); /* Темный полупрозрачный фон для всей страницы */
+        color: white; /* Цвет текста для контраста */
+    }
+    .container {
+        padding: 20px;
+    }
+    .reservation-card {
+        background-color: rgba(50, 50, 50, 0.9); /* Темный фон для карточек */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+    }
+    .card-header h4, .card-body p {
+        margin: 0;
+    }
+    .inline-elements {
+        display: flex;
+        gap: 10px;
+    }
+</style> <div class="container">
                     <h3>Ваши бронирования</h3>
-                </legend>
+  <div class="row row-cols-1">
+      {% if not reservations %}
+      <p>У вас еще нет бронирований.</p>
+      {% endif %}
                 {% for reservation in reservations %}
 <div class="reservation-card">
                 <div class="card-header">
@@ -17,18 +39,29 @@
                 </div>
                 <div class="card-body">
         <p><i class="fas fa-calendar"></i> {{ reservation.start_datetime }} - {{ reservation.end_datetime }}</p>
+                    <div class="inline-elements">
+                        {% if reservation.quantity_customers %}
         <p><i class="fas fa-user-group"></i> Количество гостей: {{ reservation.quantity_customers }}</p>
+                        {% endif %}
+                        {% if reservation.phone_number %}
         <p><i class="fas fa-phone"></i> {{ reservation.phone_number }}</p>
+                        {% endif %}
+                        </div>
+                    {% if reservation.created_at %}
         <p><i class="fas fa-clock"></i> Дата бронирования: {{ reservation.created_at }}</p>
-        <div class="action-buttons">
-                        <button class="btn btn-danger">Отменить</button>
-            <a href="{% url 'resto:reservation-edit' reservation.pk %}"><button class="btn btn-primary">Редактировать</button></a>
-                    </div>
+                    {% endif %}
+                    {% if reservation.start_datetime >= now %}
+            <a href="{% url 'resto:reservation-delete' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Отменить</button></a>
+                    {% else %}
+                    <a href="{% url 'resto:reservation-delete' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Удалить</button></a>
+                    {% endif %}
+                    {% if reservation.start_datetime >= now %}
+            <a href="{% url 'resto:reservation-edit' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Изменить</button></a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
-                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Войти</button>
-            </fieldset>
-        </div>
+  </div>
+
 </div>
 {% endblock %}
