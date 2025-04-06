@@ -17,6 +17,25 @@
                 <legend class="center">
             <h3>Вы действительно хотите отменить бронирование столика?</h3>
                     </legend>
+                <div class="reservation-card">
+                <div class="card-header">
+                    <h4>Столик №{{ reservation.table.number_table }}</h4>
+                </div>
+                <div class="card-body">
+        <p><i class="fas fa-calendar"></i> {{ reservation.start_datetime }} - {{ reservation.end_datetime }}</p>
+                    <div class="inline-elements">
+                        {% if reservation.quantity_customers %}
+        <p><i class="fas fa-user-group"></i> Количество гостей: {{ reservation.quantity_customers }}</p>
+                        {% endif %}
+                        {% if reservation.phone_number %}
+        <p><i class="fas fa-phone"></i> {{ reservation.phone_number }}</p>
+                        {% endif %}
+                        </div>
+                    {% if reservation.created_at %}
+        <p><i class="fas fa-clock"></i> Дата бронирования: {{ reservation.created_at }}</p>
+                    {% endif %}
+                </div>
+                </div>
             <div>
                 {% if reservation.start_datetime > now %}
                 <button type="submit" class="btn btn-danger" style="width: 100%">Отменить</button>

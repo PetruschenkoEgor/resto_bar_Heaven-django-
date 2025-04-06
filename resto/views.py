@@ -2,15 +2,17 @@ import json
 from datetime import timedelta, datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, FormView
 
+from config import settings
 from resto.forms import FeedbackForm, ReservationForm
 from resto.models import Table, Reservation, Feedback
 from users.models import User
@@ -67,7 +69,7 @@ class ReservationCreateView(CreateView):
     model = Reservation
     form_class = ReservationForm
     template_name = 'reservation_form.html'
-    success_url = reverse_lazy('resto:home')
+    success_url = reverse_lazy('resto:reservation-confirm')
 
     def get_context_data(self, **kwargs):
         """ Передача столика в контекст. """
@@ -84,10 +86,64 @@ class ReservationCreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        """ Добавляет текущего пользователя в запись бронирования. """
+        """ Добавляет текущего пользователя в запись бронирования и отправляет письмо. """
 
-        form.instance.user = self.request.user
+        reservation = form.save(commit=False)
+        reservation.user = self.request.user
+        reservation.save()
+
+        subject = f'Подтверждение бронирования столика №{reservation.table.number_table}'
+        message = f'''
+                            Здравствуйте!
+
+                            Спасибо за бронирование столика в нашем ресторане HEAVEN.
+
+                            Информация о Вашем бронировании:
+                            - Стол №{reservation.table.number_table}
+                            - Дата и время бронирования: {reservation.start_datetime.time()} - {reservation.end_datetime.time()} {reservation.start_datetime.date()}
+                            - Имя гостя: {reservation.customer_name}
+                            - Количество гостей: {reservation.quantity_customers}
+                            - Телефон: {reservation.phone_number}
+
+                            Адрес: г.Москва, ул.Пресненская Набережная, 2
+                            Телефон: +7 (777) 777-77-77
+                            Время работы: пн-вс 10:00-00:00
+
+                            Будем рады приветствовать Вас в нашем ресторане!
+
+                            С уважением,
+                            Команда HEAVEN
+                            '''
+        sender = settings.EMAIL_HOST_USER
+        recipient = reservation.user.email
+        send_mail(subject, message, sender, [recipient])
+
+        messages.success(self.request,
+                         'Ваше бронирование успешно создано! На вашу почту отправлено подтверждающее письмо.')
+
         return super().form_valid(form)
+
+
+class ConfirmReservationView(FormView):
+    """ Подтверждение бронирования. """
+
+    form_class = ReservationForm
+    template_name = 'reservation-confirm.html'
+    success_url = reverse_lazy('resto:home')
+
+    def form_valid(self, form):
+        return HttpResponseRedirect(self.success_url)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        """ Передаем текущего пользователя в шаблон. """
+
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+
+        return context
 
 
 class ReservationUpdateView(UpdateView):

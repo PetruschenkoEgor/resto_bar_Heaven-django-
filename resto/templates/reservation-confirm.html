@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Подтверждение бронирования{% endblock %}
+
+{% block content %}
+    <div class="overlay black-transparent-background text-content">
+        <h1 style="text-align: center;">Ваше бронирование подтверждено!</h1>
+        <p style="text-align: center;">На Вашу электронную почту было отправлено письмо с подробной информацией о бронировании.</p>
+    </div>
+<script>
+    setTimeout(function() {
+        window.location.href = "{% url 'users:personal-account' user.pk %}";
+    }, 3000); // Переход через 3 секунды
+</script>
+{% endblock %}
