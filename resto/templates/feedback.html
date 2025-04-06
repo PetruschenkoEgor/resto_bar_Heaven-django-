@@ -13,10 +13,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{% url 'resto:feedback' %}" method="post">
+                <form id="feedbackForm" action="{% url 'resto:feedback' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-
                     <button type="submit" class="btn btn-dark mt-3">Отправить</button>
                 </form>
             </div>
@@ -44,5 +43,39 @@
 
         // Убираем скроллинг кнопки вместе с содержимым
         feedbackBtn.css('z-index', 100);
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        console.log("jQuery загружен");
+        console.log("Bootstrap загружен");
+
+        $('#feedback-btn').on('click', function() {
+            console.log("Кнопка нажата");
+            $('#feedbackModal').modal('show');
+        });
+
+        $('#feedbackForm').on('submit', function(event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: form.serialize(),
+                success: function(response) {
+                    console.log("Форма успешно отправлена");
+                    $('#feedbackModal').modal('hide'); // Закрываем модальное окно
+                    // Здесь вы можете добавить код для отображения сообщения об успешной отправке
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ошибка при отправке формы:", error);
+                    // Здесь вы можете добавить код для отображения сообщения об ошибке
+                }
+            });
+        });
     });
 </script>

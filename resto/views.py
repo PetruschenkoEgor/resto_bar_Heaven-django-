@@ -2,6 +2,7 @@ import json
 from datetime import timedelta, datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -29,7 +30,7 @@ class FeedbackCreateView(CreateView):
 
     model = Feedback
     form_class = FeedbackForm
-    template_name = 'feedback.html'
+    template_name = 'feedback1.html'
     success_url = reverse_lazy('resto:home')
 
     def form_valid(self, form):
@@ -52,7 +53,7 @@ class AboutUsTemplateView(TemplateView):
 #     success_url = reverse_lazy('resto:tables')
 
 
-class TableSelectionTemplateView(TemplateView):
+class TableSelectionTemplateView(LoginRequiredMixin, TemplateView):
     """ Просмотр столиков. """
 
     template_name = 'reservation.html'
@@ -63,7 +64,7 @@ class TableSelectionTemplateView(TemplateView):
         return context
 
 
-class ReservationCreateView(CreateView):
+class ReservationCreateView(LoginRequiredMixin, CreateView):
     """ Бронирование столика. """
 
     model = Reservation
@@ -124,7 +125,7 @@ class ReservationCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ConfirmReservationView(FormView):
+class ConfirmReservationView(LoginRequiredMixin, FormView):
     """ Подтверждение бронирования. """
 
     form_class = ReservationForm
@@ -146,7 +147,7 @@ class ConfirmReservationView(FormView):
         return context
 
 
-class ReservationUpdateView(UpdateView):
+class ReservationUpdateView(LoginRequiredMixin, UpdateView):
     """ Редактирование бронирования. """
 
     model = Reservation
@@ -161,7 +162,7 @@ class ReservationUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class ReservationDeleteView(DeleteView):
+class ReservationDeleteView(LoginRequiredMixin, DeleteView):
     """ Удаление бронирования. """
 
     model = Reservation
@@ -183,7 +184,7 @@ class ReservationDeleteView(DeleteView):
         return reverse_lazy('users:personal-account', kwargs={'pk': self.object.user.pk})
 
 
-class FreeTablesView(View):
+class FreeTablesView(LoginRequiredMixin, View):
     """ Свободные столики. """
 
     def post(self, request):

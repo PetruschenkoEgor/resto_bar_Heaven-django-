@@ -52,7 +52,7 @@ class ReservationForm(forms.ModelForm):
         return cleaned_data
 
 
-class FeedbackForm(ModelForm):
+class FeedbackForm(forms.ModelForm):
     """ Форма для обратной связи. """
 
     class Meta:

@@ -49,6 +49,6 @@ class PersonalAccountDetailView(DetailView):
         """ Передача в контекст информации о бронированиях пользователя. """
 
         context = super().get_context_data(**kwargs)
-        context['reservations'] = Reservation.objects.filter(user=self.kwargs.get('pk'))
+        context['reservations'] = Reservation.objects.filter(user=self.kwargs.get('pk')).order_by('-start_datetime')
         context['now'] = timezone.now()
         return context
