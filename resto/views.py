@@ -15,7 +15,7 @@ from django.views.generic import CreateView, TemplateView, ListView, UpdateView,
 
 from config import settings
 from resto.forms import FeedbackForm, ReservationForm
-from resto.models import Table, Reservation, Feedback, Menu
+from resto.models import Table, Reservation, Feedback, Menu, Poster
 from users.models import User
 
 
@@ -45,6 +45,14 @@ class MenuListView(ListView):
     model = Menu
     template_name = 'menu.html'
     context_object_name = 'menus'
+
+
+class PosterListView(ListView):
+    """ Страница афиши. """
+
+    model = Poster
+    template_name = 'poster.html'
+    context_object_name = 'posters'
 
 
 class AboutUsTemplateView(TemplateView):

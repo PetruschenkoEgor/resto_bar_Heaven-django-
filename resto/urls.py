@@ -2,7 +2,7 @@ from django.urls import path
 from resto.apps import RestoConfig
 from resto.views import HomeTemplateView, AboutUsTemplateView, FeedbackCreateView, \
     FreeTablesView, TableSelectionTemplateView, ReservationCreateView, ReservationUpdateView, \
-    ReservationDeleteView, ConfirmReservationView, MenuListView
+    ReservationDeleteView, ConfirmReservationView, MenuListView, PosterListView
 
 app_name = RestoConfig.name
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('about/', AboutUsTemplateView.as_view(), name='about'),
     path('feedback/', FeedbackCreateView.as_view(), name='feedback'),
     path('menu/', MenuListView.as_view(), name='menu'),
+    path('posters/', PosterListView.as_view(), name='posters'),
 
     path('table-selection/', TableSelectionTemplateView.as_view(), name='table-selection'),
     path('tables/<int:pk>/reservation/', ReservationCreateView.as_view(), name='reservation'),

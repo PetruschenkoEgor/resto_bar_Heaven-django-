@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from resto.models import Reservation, Feedback, Table, Menu
+from resto.models import Reservation, Feedback, Table, Menu, Poster
 
 
 @admin.register(Reservation)
@@ -22,4 +22,9 @@ class TableAdmin(admin.ModelAdmin):
 
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "description")
+
+
+@admin.register(Poster)
+class PosterAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "description")

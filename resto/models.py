@@ -83,6 +83,3 @@ class Poster(models.Model):
     class Meta:
         verbose_name = 'Афиша'
         verbose_name_plural = 'Афиша'
-
-    def __str__(self):
-        return self.title
