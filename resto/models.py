@@ -60,3 +60,29 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'{self.name}: {self.phone}'
+
+
+class Menu(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Название', blank=True, null=True)
+    image = models.ImageField(upload_to='menu_images', verbose_name='Фото меню', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Меню'
+        verbose_name_plural = 'Меню'
+
+    def __str__(self):
+        return self.title
+
+
+class Poster(models.Model):
+    title = models.CharField(max_length=250, verbose_name='Название', blank=True, null=True)
+    image = models.ImageField(upload_to='poster_images', verbose_name='Фото афиши', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Афиша'
+        verbose_name_plural = 'Афиша'
+
+    def __str__(self):
+        return self.title

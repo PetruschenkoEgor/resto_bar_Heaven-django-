@@ -16,7 +16,11 @@
                 <h1 style="color: white; text-align: center; margin-top: 5%;">Мы расположены на последнем этаже самого</h1>
                 <h1 style="color: white; text-align: center;">высокого здания города Москва.</h1>
                     <h1 style="color: white; text-align: center;">Выше нас только звезды.</h1>
-            </div>
+                    <div class="buttons-container" style="display: flex; justify-content: center; gap: 20px;">
+    <a href="{% url 'resto:menu' %}"><button type="button" class="btn btn-lg mt-4 podsvetkal" style="background: red; width: 100%;">Меню ресторана</button></a>
+    <a href="{% url 'users:register' %}"><button type="button" class="btn btn-lg mt-4 podsvetkal" style="background: #dadada; width: 100%;">Афиша</button></a>
+                    </div>
+                    </div>
                 </div>
         </div>
             </div>

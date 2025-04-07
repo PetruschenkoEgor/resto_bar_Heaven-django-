@@ -11,11 +11,11 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, FormView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, FormView, DetailView
 
 from config import settings
 from resto.forms import FeedbackForm, ReservationForm
-from resto.models import Table, Reservation, Feedback
+from resto.models import Table, Reservation, Feedback, Menu
 from users.models import User
 
 
@@ -37,6 +37,14 @@ class FeedbackCreateView(CreateView):
         response = super().form_valid(form)
         messages.success(self.request, 'Ваше сообщение успешно отправлено!')
         return response
+
+
+class MenuListView(ListView):
+    """ Страница меню. """
+
+    model = Menu
+    template_name = 'menu.html'
+    context_object_name = 'menus'
 
 
 class AboutUsTemplateView(TemplateView):
