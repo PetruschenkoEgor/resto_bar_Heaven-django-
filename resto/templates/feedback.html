@@ -1,81 +1,22 @@
-<!-- Кнопка обратная связь -->
-<a href="#" id="feedback-btn" data-toggle="modal" data-target="#feedbackModal">
-    <i class="fas fa-comment-dots fa-5x podsvetkap" style="color: #FFE4B5"></i>
-</a>
-
-<!-- Модальное окно обратной связи -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="feedbackModalLabel">Обратная связь</h5>
-                <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="Закрыть">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="feedbackForm" action="{% url 'resto:feedback' %}" method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-dark mt-3">Отправить</button>
-                </form>
-            </div>
-        </div>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Обратная связь{% endblock %}
+{% block feedback_button %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+{% load static %}
+<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="overlay black-transparent-background text-content">
+        <form method="post" enctype="multipart/form-data" action="{% url 'resto:feedback' %}" style="width: 100%" class="mx-auto w-50">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="center">
+                    <h3>Обратная связь</h3>
+                </legend>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Отправить</button>
+            </fieldset>
+        </form>
     </div>
 </div>
-
-<!-- Скрипты Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
-
-<!-- Скрипт для фиксирования кнопки внизу экрана -->
-<script>
-    $(document).ready(function() {
-        var feedbackBtn = $('#feedback-btn');
-        var windowHeight = $(window).height();
-
-        // Устанавливаем позицию кнопки
-        feedbackBtn.css({
-            'position': 'fixed',
-            'bottom': '40px', // Расстояние от нижнего края окна
-            'right': '55px'   // Расстояние от правого края окна
-        });
-
-        // Убираем скроллинг кнопки вместе с содержимым
-        feedbackBtn.css('z-index', 100);
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        console.log("jQuery загружен");
-        console.log("Bootstrap загружен");
-
-        $('#feedback-btn').on('click', function() {
-            console.log("Кнопка нажата");
-            $('#feedbackModal').modal('show');
-        });
-
-        $('#feedbackForm').on('submit', function(event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение формы
-            var form = $(this);
-            var url = form.attr('action');
-            var method = form.attr('method');
-
-            $.ajax({
-                url: url,
-                method: method,
-                data: form.serialize(),
-                success: function(response) {
-                    console.log("Форма успешно отправлена");
-                    $('#feedbackModal').modal('hide'); // Закрываем модальное окно
-                    // Здесь вы можете добавить код для отображения сообщения об успешной отправке
-                },
-                error: function(xhr, status, error) {
-                    console.error("Ошибка при отправке формы:", error);
-                    // Здесь вы можете добавить код для отображения сообщения об ошибке
-                }
-            });
-        });
-    });
-</script>
+{% endblock %}

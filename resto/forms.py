@@ -18,7 +18,7 @@ class StyleFormMixin:
                 fild.widget.attrs["class"] = "form-control"
 
 
-class ReservationForm(forms.ModelForm):
+class ReservationForm(StyleFormMixin, forms.ModelForm):
     """ Форма для бронирования. """
 
     class Meta:
@@ -52,9 +52,16 @@ class ReservationForm(forms.ModelForm):
         return cleaned_data
 
 
-class FeedbackForm(forms.ModelForm):
+class FeedbackForm(StyleFormMixin, forms.ModelForm):
     """ Форма для обратной связи. """
 
     class Meta:
         model = Feedback
         fields = ["name", "phone", "message"]
+
+    def __init__(self, *args, **kwargs):
+        """ Отключаем help_text. """
+
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None

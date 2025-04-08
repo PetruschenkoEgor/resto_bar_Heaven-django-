@@ -30,7 +30,7 @@ class FeedbackCreateView(CreateView):
 
     model = Feedback
     form_class = FeedbackForm
-    template_name = 'feedback1.html'
+    template_name = 'feedback.html'
     success_url = reverse_lazy('resto:home')
 
     def form_valid(self, form):

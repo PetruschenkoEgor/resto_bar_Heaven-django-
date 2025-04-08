@@ -439,8 +439,13 @@ form button:hover {
 </head>
 <body>
     {% include 'includes/inc_menu.html' %}
+    {% block feedback_button %}
+    {% include 'includes/feedback-button.html' %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
+    {% block footer %}
     {% include 'includes/footer.html' %}
+    {% endblock %}
 </body>
 </html>
