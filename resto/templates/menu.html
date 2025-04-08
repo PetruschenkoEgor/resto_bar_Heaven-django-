@@ -57,9 +57,12 @@
                 <div class="menu-gallery">
     {% for menu in menus %}
         <div class="menu-item">
-            <a href="{{ menu.image.url }}" class="image-link">
-            <img src="{{ menu.image.url }}" alt="{{ menu.title }}">
-            </a>
+            {% if menu.image %}
+                <a href="{{ menu.image.url }}" class="image-link">
+                    <img src="{{ menu.image.url }}" alt="{{ menu.title }}">
+                </a>
+            {% else %}
+            {% endif %}
             <p>{{ menu.description }}</p>
         </div>
     {% endfor %}

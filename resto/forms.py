@@ -3,7 +3,7 @@ import datetime
 from django import forms
 from django.forms import BooleanField, ModelForm
 
-from resto.models import Reservation, Feedback
+from resto.models import Reservation, Feedback, Menu, Poster, Table
 
 
 class StyleFormMixin:
@@ -58,6 +58,51 @@ class FeedbackForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ["name", "phone", "message"]
+
+    def __init__(self, *args, **kwargs):
+        """ Отключаем help_text. """
+
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None
+
+
+class MenuForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для меню. """
+
+    class Meta:
+        model = Menu
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        """ Отключаем help_text. """
+
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None
+
+
+class PosterForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для афиши. """
+
+    class Meta:
+        model = Poster
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        """ Отключаем help_text. """
+
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = None
+
+
+class TableForm(StyleFormMixin, forms.ModelForm):
+    """ Форма для столика. """
+
+    class Meta:
+        model = Table
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         """ Отключаем help_text. """

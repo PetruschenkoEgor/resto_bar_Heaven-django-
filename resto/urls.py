@@ -12,6 +12,7 @@ urlpatterns = [
     path('feedback/', FeedbackCreateView.as_view(), name='feedback'),
     path('menu/', MenuListView.as_view(), name='menu'),
     path('posters/', PosterListView.as_view(), name='posters'),
+    # path('menu-create/', MenuCreateView.as_view(), name='menu-create'),
 
     path('table-selection/', TableSelectionTemplateView.as_view(), name='table-selection'),
     path('tables/<int:pk>/reservation/', ReservationCreateView.as_view(), name='reservation'),

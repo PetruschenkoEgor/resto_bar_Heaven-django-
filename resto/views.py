@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, FormView, DetailView
 
 from config import settings
-from resto.forms import FeedbackForm, ReservationForm
+from resto.forms import FeedbackForm, ReservationForm, MenuForm
 from resto.models import Table, Reservation, Feedback, Menu, Poster
 from users.models import User
 

@@ -71,9 +71,6 @@ class Menu(models.Model):
         verbose_name = 'Меню'
         verbose_name_plural = 'Меню'
 
-    def __str__(self):
-        return self.title
-
 
 class Poster(models.Model):
     title = models.CharField(max_length=250, verbose_name='Название', blank=True, null=True)
