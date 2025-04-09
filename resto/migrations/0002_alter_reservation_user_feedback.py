@@ -8,28 +8,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resto', '0001_initial'),
+        ("resto", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='reservation',
-            name='user',
-            field=models.ForeignKey(blank=True, help_text='Введите гостя', null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Гость'),
+            model_name="reservation",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Введите гостя",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Гость",
+            ),
         ),
         migrations.CreateModel(
-            name='Feedback',
+            name="Feedback",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, help_text='Введите имя', max_length=100, null=True, verbose_name='Имя')),
-                ('phone', models.CharField(help_text='Введите номер телефона', max_length=30, verbose_name='Номер телефона')),
-                ('message', models.TextField(help_text='Введите сообщение', verbose_name='Сообщение')),
-                ('user', models.ForeignKey(blank=True, help_text='Укажите гостя', null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Гость')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "name",
+                    models.CharField(
+                        blank=True, help_text="Введите имя", max_length=100, null=True, verbose_name="Имя"
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(help_text="Введите номер телефона", max_length=30, verbose_name="Номер телефона"),
+                ),
+                ("message", models.TextField(help_text="Введите сообщение", verbose_name="Сообщение")),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Укажите гостя",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Гость",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Обратная связь',
-                'verbose_name_plural': 'Обратная связь',
+                "verbose_name": "Обратная связь",
+                "verbose_name_plural": "Обратная связь",
             },
         ),
     ]

@@ -8,44 +8,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resto', '0006_table_image'),
+        ("resto", "0006_table_image"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='reservation',
-            name='customer_name',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Имя гостя'),
+            model_name="reservation",
+            name="customer_name",
+            field=models.CharField(blank=True, max_length=255, null=True, verbose_name="Имя гостя"),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='end_datetime',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Время и дата окончания бронирования'),
+            model_name="reservation",
+            name="end_datetime",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Время и дата окончания бронирования"),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Номер телефона'),
+            model_name="reservation",
+            name="phone_number",
+            field=models.CharField(blank=True, max_length=255, null=True, verbose_name="Номер телефона"),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='quantity_customers',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество гостей'),
+            model_name="reservation",
+            name="quantity_customers",
+            field=models.PositiveIntegerField(blank=True, null=True, verbose_name="Количество гостей"),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='start_datetime',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Время и дата начала бронирования'),
+            model_name="reservation",
+            name="start_datetime",
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Время и дата начала бронирования"),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='table',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='resto.table', verbose_name='Номер столика'),
+            model_name="reservation",
+            name="table",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="resto.table", verbose_name="Номер столика"
+            ),
         ),
         migrations.AlterField(
-            model_name='reservation',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Гость'),
+            model_name="reservation",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Гость",
+            ),
         ),
     ]

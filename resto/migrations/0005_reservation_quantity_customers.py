@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resto', '0004_alter_reservation_customer_name_and_more'),
+        ("resto", "0004_alter_reservation_customer_name_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='reservation',
-            name='quantity_customers',
-            field=models.PositiveIntegerField(blank=True, help_text='Укажите количество гостей', null=True, verbose_name='Количество гостей'),
+            model_name="reservation",
+            name="quantity_customers",
+            field=models.PositiveIntegerField(
+                blank=True, help_text="Укажите количество гостей", null=True, verbose_name="Количество гостей"
+            ),
         ),
     ]

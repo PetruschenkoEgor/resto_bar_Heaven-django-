@@ -6,40 +6,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resto', '0002_alter_reservation_user_feedback'),
+        ("resto", "0002_alter_reservation_user_feedback"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='reservation',
-            name='unique_reservation',
+            model_name="reservation",
+            name="unique_reservation",
         ),
         migrations.RemoveField(
-            model_name='reservation',
-            name='reservation_date',
+            model_name="reservation",
+            name="reservation_date",
         ),
         migrations.RemoveField(
-            model_name='reservation',
-            name='reservation_time',
+            model_name="reservation",
+            name="reservation_time",
         ),
         migrations.AddField(
-            model_name='reservation',
-            name='customer_name',
+            model_name="reservation",
+            name="customer_name",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='reservation',
-            name='end_datetime',
+            model_name="reservation",
+            name="end_datetime",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='reservation',
-            name='phone_number',
+            model_name="reservation",
+            name="phone_number",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='reservation',
-            name='start_datetime',
+            model_name="reservation",
+            name="start_datetime",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

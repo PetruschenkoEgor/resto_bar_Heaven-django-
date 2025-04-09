@@ -1,9 +1,9 @@
 import datetime
 
 from django import forms
-from django.forms import BooleanField, ModelForm
+from django.forms import BooleanField
 
-from resto.models import Reservation, Feedback, Menu, Poster, Table
+from resto.models import Feedback, Menu, Poster, Reservation, Table
 
 
 class StyleFormMixin:
@@ -19,23 +19,23 @@ class StyleFormMixin:
 
 
 class ReservationForm(StyleFormMixin, forms.ModelForm):
-    """ Форма для бронирования. """
+    """Форма для бронирования."""
 
     class Meta:
         model = Reservation
-        fields = ['table', 'start_datetime', 'end_datetime', 'customer_name', 'quantity_customers', 'phone_number']
+        fields = ["table", "start_datetime", "end_datetime", "customer_name", "quantity_customers", "phone_number"]
         widgets = {
-            'table': forms.Select(attrs={'required': True}),
+            "table": forms.Select(attrs={"required": True}),
             # устанавливает календарик на выбор времени и даты и обязательное поле для заполнения
-            'start_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': True}),
-            'end_datetime': forms.DateTimeInput(attrs={'type': 'datetime-local', 'required': True}),
+            "start_datetime": forms.DateTimeInput(attrs={"type": "datetime-local", "required": True}),
+            "end_datetime": forms.DateTimeInput(attrs={"type": "datetime-local", "required": True}),
         }
 
     def clean(self):
         cleaned_data = super().clean()
-        table = cleaned_data.get('table')
-        start_datetime = cleaned_data.get('start_datetime')
-        end_datetime = cleaned_data.get('end_datetime')
+        table = cleaned_data.get("table")
+        start_datetime = cleaned_data.get("start_datetime")
+        end_datetime = cleaned_data.get("end_datetime")
 
         # время открытия 10:00
         opening_time = datetime.time(hour=10, minute=0)
@@ -53,14 +53,14 @@ class ReservationForm(StyleFormMixin, forms.ModelForm):
 
 
 class FeedbackForm(StyleFormMixin, forms.ModelForm):
-    """ Форма для обратной связи. """
+    """Форма для обратной связи."""
 
     class Meta:
         model = Feedback
         fields = ["name", "phone", "message"]
 
     def __init__(self, *args, **kwargs):
-        """ Отключаем help_text. """
+        """Отключаем help_text."""
 
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
@@ -68,14 +68,14 @@ class FeedbackForm(StyleFormMixin, forms.ModelForm):
 
 
 class MenuForm(StyleFormMixin, forms.ModelForm):
-    """ Форма для меню. """
+    """Форма для меню."""
 
     class Meta:
         model = Menu
-        fields = '__all__'
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        """ Отключаем help_text. """
+        """Отключаем help_text."""
 
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
@@ -83,14 +83,14 @@ class MenuForm(StyleFormMixin, forms.ModelForm):
 
 
 class PosterForm(StyleFormMixin, forms.ModelForm):
-    """ Форма для афиши. """
+    """Форма для афиши."""
 
     class Meta:
         model = Poster
-        fields = '__all__'
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        """ Отключаем help_text. """
+        """Отключаем help_text."""
 
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
@@ -98,14 +98,14 @@ class PosterForm(StyleFormMixin, forms.ModelForm):
 
 
 class TableForm(StyleFormMixin, forms.ModelForm):
-    """ Форма для столика. """
+    """Форма для столика."""
 
     class Meta:
         model = Table
-        fields = '__all__'
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        """ Отключаем help_text. """
+        """Отключаем help_text."""
 
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
