@@ -34,9 +34,21 @@ class FeedbackCreateView(CreateView):
     success_url = reverse_lazy('resto:home')
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, 'Ваше сообщение успешно отправлено!')
-        return response
+        feedback = form.save(commit=False)
+        if self.request.user.is_authenticated:
+            feedback.user = self.request.user
+        feedback.save()
+        subject = f'Обращение №{feedback.id}.'
+        message = f'''
+        Имя гостя: {feedback.name if feedback.name else 'гость не указал имя'}
+        Номер телефона гостя: {feedback.phone}
+        Почта гостя: {feedback.user.email if feedback.user else 'гость неавторизован'}
+        Сообщение гостя: {feedback.message}
+        '''
+        sender = settings.EMAIL_HOST_USER
+        recipient = sender
+        send_mail(subject, message, sender, [recipient])
+        return super().form_valid(form)
 
 
 class MenuListView(ListView):
@@ -59,14 +71,6 @@ class AboutUsTemplateView(TemplateView):
     """ Страница о нас. """
 
     template_name = 'about.html'
-
-
-# class TableCreateView(CreateView):
-#     """ Создание столика """
-#
-#     model = Table
-#     template_name = 'add_table.html'
-#     success_url = reverse_lazy('resto:tables')
 
 
 class TableSelectionTemplateView(LoginRequiredMixin, TemplateView):

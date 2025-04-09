@@ -59,7 +59,7 @@ class Feedback(models.Model):
         verbose_name_plural = 'Обратная связь'
 
     def __str__(self):
-        return f'{self.name}: {self.phone}'
+        return f'{self.phone}'
 
 
 class Menu(models.Model):
