@@ -7,10 +7,10 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./requirements.txt .
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY . /app/
 
 RUN mkdir -p /app/media && chmod -R 755 /app/media
 RUN mkdir -p /app/staticfiles && chmod -R 755 /app/staticfiles

@@ -118,10 +118,11 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
                             Информация о Вашем бронировании:
                             - Стол №{reservation.table.number_table}
                             - Дата и время бронирования: {reservation.start_datetime.time()} - 
-{reservation.end_datetime.time()} {reservation.start_datetime.date()}
-                            - Имя гостя: {reservation.customer_name}
-                            - Количество гостей: {reservation.quantity_customers}
-                            - Телефон: {reservation.phone_number}
+                            {reservation.end_datetime.time()} {reservation.start_datetime.date()}
+                            - Имя гостя: {reservation.customer_name if reservation.customer_name else 'не указано'}
+                            - Количество гостей: {reservation.quantity_customers 
+                            if reservation.quantity_customers else 'не указано'}
+                            - Телефон: {reservation.phone_number if reservation.phone_number else 'не указано'}
 
                             Адрес: г.Москва, ул.Пресненская Набережная, 2
                             Телефон: +7 (777) 777-77-77
