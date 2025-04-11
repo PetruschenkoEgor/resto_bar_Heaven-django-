@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+{% load static %}
+<div style="background-image: url({% static 'images/XXXL.webp' %}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+<div class="black-transparent-background text-content mt-1">
+    <p class="mb-5" style="color: white; text-align: center; font-size: 25px;"><strong>Бар&ресторан Heaven</strong> – это уникальное место, сочетающее изысканность гастрономического искусства с атмосферой настоящего рая для гурманов. Расположенный на верхнем этаже современного здания на Пресненской набережной, ресторан предлагает своим гостям не только великолепные блюда, но и захватывающие дух панорамы Москвы, открывающиеся с высоты птичьего полета.</p>
+</div>
+</div>
+<section id="main-content">
+    <div class="container">
+        <div class="left-column black-transparent-background mt-5">
+    <h1 style="font-weight: bold; color: white; font-size: 42px;">История ресторана</h1>
+    <p class="mb-5" style="color: white; font-size: 30px;">Идея создания Heaven возникла в результате путешествия основателя ресторана, Дмитрия Иванова, по лучшим ресторанам мира. Впечатленный высокими стандартами сервиса и инновационными кулинарными концепциями, Дмитрий решил воплотить мечту о создании идеального места для отдыха и наслаждения вкуснейшими блюдами. Вдохновившись природой и культурой разных стран, он объединил лучшие практики мировой кухни с традициями русского гостеприимства.</p>
+</div>
+    </div>
+<div class="collage-container mt-5">
+    <img src="{% static 'images/интерьер.webp' %}" alt="Интерьер ресторана" class="collage-item collage-item-2">
+    <img src="{% static 'images/панорама.webp' %}" alt="Панорамный вид" class="collage-item collage-item-3">
+    <img src="{% static 'images/гости.webp' %}" alt="Гости ресторана" class="collage-item collage-item-4">
+    <img src="{% static 'images/блюдо.webp' %}" alt="Блюдо ресторана" class="collage-item collage-item-5">
+    <img src="{% static 'images/сотрудники.webp' %}" alt="Сотрудники ресторана" class="collage-item collage-item-6">
+    <img src="{% static 'images/ресторан.webp' %}" alt="Ресторан Heaven" class="collage-item collage-item-1">
+</div>
+    <div class="container">
+        <div class="left-column black-transparent-background mt-5">
+    <h1 style="font-weight: bold; color: white; font-size: 42px;">Миссия и ценности</h1>
+    <p class="mb-5" style="color: white; font-size: 30px;">Миссия Heaven заключается в предоставлении гостям незабываемого опыта, сочетающего высокие стандарты качества еды и обслуживания с уникальной атмосферой. Мы стремимся стать местом, где гости чувствуют себя особенными, где каждый визит превращается в праздник вкуса и эстетики.</p>
+            <p class="mb-5" style="color: white; font-size: 30px; font-weight: bold;">Ценности ресторана включают:</p>
+            <p class="mb-5" style="color: white; font-size: 30px;">Качество: Мы используем только свежие и высококачественные ингредиенты, заботливо отобранные нашими шеф-поварами.</p>
+            <p class="mb-5" style="color: white; font-size: 30px;">Инновационность: Постоянное обновление меню и внедрение новых кулинарных тенденций позволяют нашим гостям наслаждаться уникальными блюдами</p>
+            <p class="mb-5" style="color: white; font-size: 30px;">Атмосфера: Мы создаем уютную атмосферу, где каждый гость чувствует себя комфортно и расслабленно.</p>
+            <p class="mb-5" style="color: white; font-size: 30px;">Команда: Наш коллектив состоит из профессионалов своего дела, стремящихся обеспечить безупречный сервис и создать неповторимые впечатления.</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="left-column black-transparent-background mt-5">
+    <h1 style="font-weight: bold; color: white; font-size: 42px;">Команда</h1>
+            <p class="mb-5" style="font-size: 30px;">Команда Heaven – это профессионалы, объединенные общей страстью к гастрономическому искусству и высоким стандартам сервиса. Каждый член команды вносит свой вклад в общее дело, создавая уникальную атмосферу и обеспечивая гостей наилучшим обслуживанием.</p>
+            <div class="row">
+    <div class="col-md-3 col-sm-12">
+        <img src="{% static 'images/м.webp' %}" alt="Фото Дмитрия Иванова" class="img-fluid mb-3 mb-md-0" style="width: 50%; height: 80%;">
+    </div>
+    <div class="col-md-9 col-sm-12">
+        <p class="mb-5" style="font-size: 30px;">
+            <strong style="font-size: 35px;">Дмитрий Иванов</strong> - основатель и идейный вдохновитель ресторана, привнес в Heaven свою любовь к кулинарному искусству и стремление к совершенству.
+        </p>
+    </div>
+</div>
+            <div class="row">
+    <div class="col-md-3 col-sm-12">
+        <img src="{% static 'images/ж.webp' %}" alt="Фото Екатерина Смирнова" class="img-fluid mb-3 mb-md-0" style="width: 50%; height: 80%;">
+    </div>
+    <div class="col-md-9 col-sm-12">
+        <p class="mb-5" style="font-size: 30px;">
+            <strong style="font-size: 35px;">Екатерина Смирнова</strong> - шеф-повар, известна своими авторскими блюдами, которые гармонично сочетаются с классической кухней.
+        </p>
+    </div>
+</div>
+            <div class="row">
+    <div class="col-md-3 col-sm-12">
+        <img src="{% static 'images/м.webp' %}" alt="Фото Артем Петров" class="img-fluid mb-3 mb-md-0" style="width: 50%; height: 80%;">
+    </div>
+    <div class="col-md-9 col-sm-12">
+        <p class="mb-5" style="font-size: 30px;">
+            <strong style="font-size: 35px;">Артем Петров</strong> - сомелье и миксолог, удивляет гостей оригинальными коктейлями и винными картами, подобранными специально под каждое блюдо.
+        </p>
+    </div>
+</div>
+            <div class="row">
+    <div class="col-md-3 col-sm-12">
+        <img src="{% static 'images/ж.webp' %}" alt="Фото Анна Васильева" class="img-fluid mb-3 mb-md-0" style="width: 50%; height: 80%;">
+    </div>
+    <div class="col-md-9 col-sm-12">
+        <p class="mb-5" style="font-size: 30px;">
+            <strong style="font-size: 35px;">Анна Васильева</strong> - менеджер зала, следит за тем, чтобы каждый гость чувствовал себя как дома, обеспечивая высокий уровень сервиса.
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="left-column black-transparent-background mt-5">
+            <p class="mb-5" style="color: white; font-size: 30px;"><strong style="font-size: 35px;">Heaven</strong> – это место, где встречаются искусство и удовольствие, где каждая деталь продумана для максимального комфорта и удовольствия гостей.</p>
+        </div>
+    </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+{% load static %}
+<style>
+    body {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+    }
+    .container {
+        padding: 20px;
+    }
+    .reservation-card {
+        background-color: rgba(50, 50, 50, 0.9);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+    }
+    .card-header h4, .card-body p {
+        margin: 0;
+    }
+    .inline-elements {
+        display: flex;
+        gap: 10px;
+    }
+</style> <div class="container">
+                    <h3>Ваши бронирования</h3>
+  <div class="row row-cols-1">
+      {% if not reservations %}
+      <p>У вас еще нет бронирований.</p>
+      {% endif %}
+                {% for reservation in reservations %}
+<div class="reservation-card">
+                <div class="card-header">
+                    <h4>Столик №{{ reservation.table.number_table }}</h4>
+                </div>
+                <div class="card-body">
+        <p><i class="fas fa-calendar"></i> {{ reservation.start_datetime }} - {{ reservation.end_datetime }}</p>
+                    <div class="inline-elements">
+                        {% if reservation.quantity_customers %}
+        <p><i class="fas fa-user-group"></i> Количество гостей: {{ reservation.quantity_customers }}</p>
+                        {% endif %}
+                        {% if reservation.phone_number %}
+        <p><i class="fas fa-phone"></i> {{ reservation.phone_number }}</p>
+                        {% endif %}
+                        </div>
+                    {% if reservation.created_at %}
+        <p><i class="fas fa-clock"></i> Дата бронирования: {{ reservation.created_at }}</p>
+                    {% endif %}
+                    {% if reservation.start_datetime >= now %}
+            <a href="{% url 'resto:reservation-delete' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Отменить</button></a>
+                    {% else %}
+                    <a href="{% url 'resto:reservation-delete' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Удалить</button></a>
+                    {% endif %}
+                    {% if reservation.start_datetime >= now %}
+            <a href="{% url 'resto:reservation-edit' reservation.pk %}"><button class="btn mt-3 podsvetkap" style="color: white;">Изменить</button></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

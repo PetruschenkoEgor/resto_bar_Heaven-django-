@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Обратная связь{% endblock %}
+{% block feedback_button %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+{% load static %}
+<div class="overlay" style="background-image: url({{ table.image.url }}); background-size: cover; height: 100vh; width: 100vw; background-position: center; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="overlay black-transparent-background text-content">
+        <form method="post" enctype="multipart/form-data" action="{% url 'resto:feedback' %}" style="width: 100%" class="mx-auto w-50">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="center">
+                    <h3>Обратная связь</h3>
+                </legend>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn bordp podsvetkap textp btn-lg" style="color: white;">Отправить</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

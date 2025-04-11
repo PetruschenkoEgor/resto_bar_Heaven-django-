@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Выбор свободного столика{% endblock %}
+{% block footer %}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="left-column black-transparent-background">
+        <h1 style="font-weight: bold; color: white; font-size: 42px;">Выбор даты и времени</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="left-column black-transparent-background mt-5">
+        <form id="filter-form">
+            <label style="font-size: 25px; color: white;" for="selected-date">Выберите дату:</label>
+            <input style="font-size: 25px;" type="date" id="selected-date" name="selected-date">
+            <label style="font-size: 25px; color: white;" for="selected-time">Выберите время:</label>
+            <input style="font-size: 25px;" type="time" id="selected-time" name="selected-time">
+            <button style="font-size: 25px;" type="submit">Показать доступные столики</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="left-column black-transparent-background mt-5">
+        <div id="calendar"></div>
+        <ul id="tables-list" class="tables-grid">
+            <!-- Список столиков будет заполняться динамически -->
+            <h1 style="color: white;">Выберите дату и время</h1>
+        </ul>
+    </div>
+</div>
+
+<div id="image-modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-image">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('filter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var selectedDate = document.getElementById('selected-date').value;
+            var selectedTime = document.getElementById('selected-time').value;
+
+            fetch('/free-tables/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ date: selectedDate, time: selectedTime })
+            }).then(response => response.json())
+              .then(data => {
+                  var tablesList = document.getElementById('tables-list');
+                  tablesList.innerHTML = '';
+
+                  data.tables.forEach(table => {
+                      var li = document.createElement('li');
+                      li.className = 'table-item';
+
+                      var img = document.createElement('img');
+                      img.src = table.image || '{% static "images/default_table.png" %}';
+                      img.alt = `Фото столика ${table.id}`;
+                      img.className = 'table-img';
+                      img.addEventListener('click', function() {
+                          document.getElementById('modal-image').src = this.src;
+                          document.getElementById('image-modal').style.display = 'block';
+                      });
+
+                      var details = document.createElement('div');
+                      details.className = 'table-details';
+                      details.addEventListener('click', function() {
+                          window.location.href = `/tables/${table.id}/reservation/`;
+                      });
+
+                      var header = document.createElement('h3');
+                      header.textContent = `Столик №${table.id}`;
+
+                      var capacity = document.createElement('p');
+                      capacity.textContent = `Вмещает до ${table.capacity} человек`;
+
+                      var status = document.createElement('p');
+                      if (table) {
+                          status.textContent = 'Свободен';
+                          status.style.color = 'green';
+                      }
+
+                      details.appendChild(header);
+                      details.appendChild(capacity);
+                      details.appendChild(status);
+
+                      li.appendChild(img);
+                      li.appendChild(details);
+
+                      tablesList.appendChild(li);
+                  });
+              });
+        });
+
+        var modal = document.getElementById('image-modal');
+        var closeBtn = document.getElementsByClassName('close')[0];
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    });
+</script>
+{% endblock %}
