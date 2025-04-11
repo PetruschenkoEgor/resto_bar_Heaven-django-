@@ -8,7 +8,7 @@ from resto.views import (AboutUsTemplateView, ConfirmReservationView, FeedbackCr
 app_name = RestoConfig.name
 
 urlpatterns = [
-    path("home/", HomeTemplateView.as_view(), name="home"),
+    path("/", HomeTemplateView.as_view(), name="home"),
     path("about/", AboutUsTemplateView.as_view(), name="about"),
     path("feedback/", FeedbackCreateView.as_view(), name="feedback"),
     path("menu/", MenuListView.as_view(), name="menu"),
